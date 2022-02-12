@@ -1,0 +1,46 @@
+<div class="mainDiv">
+  <form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
+    <label for="type">Type of the Transaction</label>
+    <select name="transactionType" id="type" formControlName="type">
+      <option value="debit">Debit</option>
+      <option value="credit">Credit</option>
+    </select>
+    <label for="cost">Total amount (in Rs)</label>
+    <input type="number" name="totalCost" id="cost" formControlName="cost" />
+    <button type="submit">Submit Transaction</button>
+  </form>
+</div>
+<br />
+<div class="secondDiv">
+  <div>
+    <h1>Credits</h1>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Amount in Rs</th>
+      </tr>
+      <tr *ngFor="let trans of credits">
+        <td>{{ trans.id }}</td>
+        <td>{{ trans.cost }}</td>
+      </tr>
+    </table>
+  </div>
+  <br />
+  <div>
+    <h1>Debits</h1>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Amount in Rs</th>
+      </tr>
+      <tr *ngFor="let trans of debits">
+        <td>{{ trans.id }}</td>
+        <td>{{ trans.cost }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<br />
+<div class="total">
+  <h1>{{ getTotal() }}</h1>
+</div>
