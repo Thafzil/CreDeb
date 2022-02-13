@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -9,18 +10,45 @@ import {
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('enterAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0,0)', opacity: 0 }),
+        animate('500ms', style({ transform: 'scale(1,1)', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateY(0)', opacity: 1 }),
+        animate(
+          '0ms',
+          style({ transform: 'translateY(100%) scale(0,0)', opacity: 0 })
+        ),
+      ]),
+    ]),
+    trigger('enterButtonAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0,0)', opacity: 0 }),
+        animate('500ms', style({ transform: 'scale(1,1)', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'scale(1,1)', opacity: 1 }),
+        animate('500ms', style({ transform: 'scale(0,0)', opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class HomeComponent implements OnInit {
   mainForm!: FormGroup;
   debits: Transaction[] = [];
   credits: Transaction[] = [];
+  openForm: boolean = false;
   constructor(
     private transaction: TransactionsService,
     private _fb: FormBuilder
   ) {
     this.mainForm = this._fb.group({
       type: ['', Validators.required],
-      cost: ['', Validators.min(1)],
+      reason: ['', Validators.required],
+      cost: ['', [Validators.min(1), Validators.required]],
     });
   }
 
@@ -42,11 +70,12 @@ export class HomeComponent implements OnInit {
       console.log(res);
     });
     this.mainForm.reset();
+    this.openForm = false;
   }
   getTotal(): number {
     return (
-      this.credits.reduce((a: any, b: any) => a + b.cost, 0) -
-      this.debits.reduce((a: any, b: any) => a + b.cost, 0)
+      this.credits.reduce((res: any, current: any) => res + current.cost, 0) -
+      this.debits.reduce((res: any, current: any) => res + current.cost, 0)
     );
   }
 }

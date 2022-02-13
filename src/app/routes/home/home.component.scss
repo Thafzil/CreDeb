@@ -1,5 +1,11 @@
 .mainDiv {
-  margin: auto;
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+  justify-content: center;
+  background: black !important;
+  text-align: center;
+  padding: 2rem 0 2rem 0 !important;
 }
 .secondDiv {
   margin: auto;
@@ -8,4 +14,43 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+.w-full {
+  width: 100% !important;
+}
+.w-half {
+  width: 50% !important;
+}
+.mat-input-element {
+  color: white !important;
+}
+.addBtn {
+  // font-size: 3rem !important;
+  // height: 3rem !important;
+  // width: 3rem !important;
+  display: flex;
+  justify-content: center;
+}
+.iconSize {
+  font-size: 3rem !important;
+  width: 100%;
+}
+.creditGreen {
+  background: linear-gradient(35deg, rgb(195, 255, 195), transparent);
+  color: black !important;
+  text-align: center;
+}
+.creditGreen:hover {
+  background: linear-gradient(35deg, rgb(195, 255, 195), rgb(138, 255, 138));
+}
+.debitRed {
+  background: linear-gradient(35deg, rgb(255, 185, 185), transparent);
+  color: black !important;
+  text-align: center;
+}
+.debitRed:hover {
+  background: linear-gradient(35deg, rgb(255, 185, 185), rgb(250, 162, 162));
 }

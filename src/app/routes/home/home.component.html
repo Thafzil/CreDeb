@@ -1,46 +1,129 @@
-<div class="mainDiv">
-  <form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
-    <label for="type">Type of the Transaction</label>
-    <select name="transactionType" id="type" formControlName="type">
-      <option value="debit">Debit</option>
-      <option value="credit">Credit</option>
-    </select>
-    <label for="cost">Total amount (in Rs)</label>
-    <input type="number" name="totalCost" id="cost" formControlName="cost" />
-    <button type="submit">Submit Transaction</button>
-  </form>
-</div>
-<br />
-<div class="secondDiv">
-  <div>
-    <h1>Credits</h1>
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Amount in Rs</th>
-      </tr>
-      <tr *ngFor="let trans of credits">
-        <td>{{ trans.id }}</td>
-        <td>{{ trans.cost }}</td>
-      </tr>
-    </table>
+<div>
+  <!-- toolbar starts -->
+  <mat-toolbar color="primary">
+    <!-- <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu</mat-icon>
+    </button> -->
+    <h1>CreDeb</h1>
+    <span class="spacer"></span>
+    <!-- <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+    >
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with share icon"
+    >
+      <mat-icon>share</mat-icon>
+    </button> -->
+  </mat-toolbar>
+  <!-- toolbar ends -->
+
+  <div class="mainDiv">
+    <div *ngIf="!openForm" [@enterButtonAnimation]>
+      <button
+        type="button"
+        mat-icon-button
+        color="primary"
+        (click)="openForm = true"
+        matTooltip="Add New Transaction"
+        class="addBtn"
+      >
+        <mat-icon class="iconSize">add_circle</mat-icon>
+      </button>
+    </div>
+    <form [formGroup]="mainForm" *ngIf="openForm" [@enterAnimation]>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label for="type">Type of the Transaction</mat-label>
+        <mat-select
+          #tranSelect
+          name="transactionType"
+          id="type"
+          formControlName="type"
+        >
+          <mat-option value="credit" class="creditGreen"> Credit </mat-option>
+          <mat-option value="debit" class="debitRed"> Debit </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label for="cost">Amount (in Rs)</mat-label>
+        <input
+          matInput
+          placeholder="Amount (in Rs)"
+          type="number"
+          name="totalCost"
+          id="cost"
+          formControlName="cost"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Reason</mat-label>
+        <textarea
+          matInput
+          formControlName="reason"
+          placeholder="Reason for the transaction"
+        ></textarea>
+      </mat-form-field>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        [disabled]="!mainForm.valid"
+        (click)="onSubmit()"
+        (keyup.enter)="onSubmit()"
+      >
+        Submit Transaction
+      </button>
+      <button
+        type="reset"
+        class="margin-left-xs"
+        mat-raised-button
+        color="accent"
+      >
+        Clear
+      </button>
+    </form>
+  </div>
+
+  <div class="secondDiv">
+    <div>
+      <h1>Credits</h1>
+      <table>
+        <tr>
+          <th>Id</th>
+          <th>Amount in Rs</th>
+        </tr>
+        <tr *ngFor="let trans of credits">
+          <td>{{ trans.id }}</td>
+          <td>{{ trans.cost }}</td>
+        </tr>
+      </table>
+    </div>
+    <br />
+    <div>
+      <h1>Debits</h1>
+      <table>
+        <tr>
+          <th>Id</th>
+          <th>Amount in Rs</th>
+        </tr>
+        <tr *ngFor="let trans of debits">
+          <td>{{ trans.id }}</td>
+          <td>{{ trans.cost }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
   <br />
-  <div>
-    <h1>Debits</h1>
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Amount in Rs</th>
-      </tr>
-      <tr *ngFor="let trans of debits">
-        <td>{{ trans.id }}</td>
-        <td>{{ trans.cost }}</td>
-      </tr>
-    </table>
+  <div class="total">
+    <h1>{{ getTotal() }}</h1>
   </div>
-</div>
-<br />
-<div class="total">
-  <h1>{{ getTotal() }}</h1>
 </div>
